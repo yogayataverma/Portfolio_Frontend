@@ -61,10 +61,16 @@ const Blog = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
-        setPosts(response.data);
+        if (Array.isArray(response.data)) {
+          setPosts(response.data);
+        } else {
+          console.error('Expected array of posts, received:', response.data);
+          setPosts([]);
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching posts:', error);
+        setPosts([]);
         setLoading(false);
       }
     };
@@ -136,19 +142,25 @@ const Blog = () => {
     const fetchUpdates = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/updates`);
-        setUpdates(response.data.map(update => ({
-          id: update._id,
-          title: update.title,
-          description: update.description,
-          category: update.category,
-          date: new Date(update.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })
-        })));
+        if (Array.isArray(response.data)) {
+          setUpdates(response.data.map(update => ({
+            id: update._id,
+            title: update.title,
+            description: update.description,
+            category: update.category,
+            date: new Date(update.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          })));
+        } else {
+          console.error('Expected array of updates, received:', response.data);
+          setUpdates([]);
+        }
       } catch (error) {
         console.error('Error fetching updates:', error);
+        setUpdates([]);
       }
     };
 
@@ -163,23 +175,33 @@ const Blog = () => {
     try {
       setSkillsLoading(true);
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/skills`);
+      
+      // Check if response.data is valid
+      if (!response.data || typeof response.data !== 'object') {
+        throw new Error('Invalid response data format');
+      }
+
       console.log('Raw skills data:', response.data);
 
-      // Organize skills by category
+      // Initialize organized skills
       const organized = {
         'data-science': [],
         'ai': []
       };
 
-      // Collect all skills from all documents for each category
-      response.data.forEach(category => {
-        if (category.name === "Data Science Explorer") {
-          organized['data-science'] = [...organized['data-science'], ...category.skills];
-        } else if (category.name === "AI Enthusiast") {
-          organized['ai'] = [...organized['ai'], ...category.skills];
-        }
-      });
-      
+      // Safely process the data
+      if (Array.isArray(response.data)) {
+        response.data.forEach(category => {
+          if (category && category.name && Array.isArray(category.skills)) {
+            if (category.name === "Data Science Explorer") {
+              organized['data-science'] = [...organized['data-science'], ...category.skills];
+            } else if (category.name === "AI Enthusiast") {
+              organized['ai'] = [...organized['ai'], ...category.skills];
+            }
+          }
+        });
+      }
+
       console.log('Organized skills:', organized);
       setSkillsByCategory(organized);
       setSkillsLoading(false);
@@ -188,6 +210,10 @@ const Blog = () => {
       console.error('Error fetching skills:', error);
       setSkillsError(error.message);
       setSkillsLoading(false);
+      setSkillsByCategory({
+        'data-science': [],
+        'ai': []
+      });
     }
   };
 
@@ -254,11 +280,11 @@ const Blog = () => {
   };
 
   // Add this filter function
-  const filteredPosts = posts.filter(
+  const filteredPosts = Array.isArray(posts) ? posts.filter(
     (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.content?.toLowerCase().includes(searchTerm.toLowerCase())
+  ) : [];
 
   const handleProjectSubmitted = (newProject) => {
     setPosts([newProject, ...posts]);
