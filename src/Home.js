@@ -19,7 +19,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { stack } from "./stack.svg";
 import Loader from "./components/Loader";
 import AIChat from "./components/AIChat";
-
 const Portfolio = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -742,6 +741,7 @@ const Portfolio = () => {
                 style={{
                   color: "#8B4513",
                   fontWeight: "bold",
+                  marginTop: "-1px",
                   marginLeft: "10px",
                 }}
               >
