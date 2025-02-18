@@ -1,0 +1,584 @@
+* {
+  cursor: auto;
+}
+
+body {
+  cursor: auto;
+}
+
+.custom-cursor{
+  cursor: url( "orange-butterfly.png"), auto;
+}
+
+/* Style the container to enable scrolling */
+.scrollable-content {
+  overflow: auto;
+}
+
+/* Styling the scrollbar */
+
+
+.custom-cursor-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-cursor-target {
+  padding: 20px;
+  border: 2px solid #333;
+}
+
+.animated-cursor {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.animated-cursor-element {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 12px solid rgba(193, 11, 111, 0.8);
+  transform-origin: 50% 70%;
+  animation: butterfly-flap 2s infinite alternate;
+}
+
+.animated-cursor-element::before,
+.animated-cursor-element::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+
+.animated-cursor-element::before {
+  border-top: 12px solid rgba(193, 11, 111, 0.8);
+  transform: translate(-6px, 0) rotate(-45deg);
+}
+
+.animated-cursor-element::after {
+  border-top: 12px solid rgba(193, 11, 111, 0.8);
+  transform: translate(6px, 0) rotate(45deg);
+}
+
+@keyframes butterfly-flap {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(5deg);
+  }
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.navbar1 {
+  width: 2.9em; /* Initial width of the navbar */
+  transition: width 0.5s; /* Add transition effect */
+  position: fixed;
+  height:100%;
+}
+
+.navbar1:hover {
+  width: 9em; /* Expanded width on hover */
+}
+
+
+.navbar-item {
+  transition: width 0.5s;
+  overflow: hidden;
+  margin-left: 0.90em;
+  width: 2.9em; 
+  display: flex;/* Initial width of the navbar items */
+}
+
+.navbar-item:hover {
+  width: 7.9em; /* Expanded width on hover */
+}
+
+.navbar-text {
+  display: none; /* Initially hide the text */
+}
+
+.navbar-item:hover .navbar-text {
+  display: inline; 
+  margin-top: 0.5em;/* Display the text on hover */
+}
+
+.button {
+  background-color: #FF964F; /* Green */
+  border: none;
+  color: transparent;
+  padding: 1em 2em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin: 1rem 1em;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.side-pic
+{
+  position: fixed;
+}
+
+.button1 {
+  background-color: transparent; 
+  color: #8B4513; 
+  border: 2px solid #FF964F;
+}
+
+.button1:hover {
+  background-color: #FF964F;
+  color: white;
+  box-shadow: 0 12px 16px 0 #FFFDD0,0 17px 50px 0 #FFFDD0;
+}
+
+.button2 {
+  background-color: transparent; 
+  color: #8B4513; 
+  border: 2px solid #FF964F;
+}
+
+.button2:hover {
+  background-color: #FF964F;
+  color: white;
+  box-shadow: 0 12px 16px 0 #FFFDD0,0 17px 50px 0 #FFFDD0;
+}
+
+.button3 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+}
+
+.button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.button4 {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+}
+
+.button4:hover {background-color: #e7e7e7;}
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
+.button5:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.fade-in {
+  animation: fadeIn 5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 110%;
+ 
+  height: 200px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #FFBE98;
+  color: #8B4513;
+}
+
+.flip-card-back {
+  background-color: transparent;
+  color:  #8B4513;
+  transform: rotateY(180deg);
+}
+
+
+.flip-card1 {
+  background-color: transparent;
+  width: 48%;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.flip-card-inner1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card1:hover .flip-card-inner1 {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front1, .flip-card-back1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-front1 {
+  background-color: #F8C794;
+  color: #8B4513;
+}
+
+.flip-card-back1 {
+  background-color: transparent;
+  color:  #8B4513;
+  transform: rotateY(180deg);
+}
+
+
+
+.flip-card2 {
+  background-color: transparent;
+  width: 40%;
+  height: 195px;
+  perspective: 1000px;
+}
+
+.flip-card-inner2 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card2:hover .flip-card-inner2 {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front2, .flip-card-back2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-front2 {
+  background-color: #FFEBB4;
+  color: #8B4513;
+}
+
+.flip-card-back2 {
+  background-color: transparent;
+  color:  #8B4513;
+  transform: rotateY(180deg);
+}
+
+
+.flip-card4 {
+  background-color: transparent;
+  width: 28%;
+  height: 190px;
+  perspective: 1000px;
+  margin-top: -26%; 
+  margin-left: 41%; 
+}
+
+.flip-card-inner4 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card4:hover .flip-card-inner4 {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front4, .flip-card-back4 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-front4 {
+  background-color: #FFF2D7;
+  color: #8B4513;
+}
+
+.flip-card-back4 {
+  background-color: transparent;
+  color:  #8B4513;
+  transform: rotateY(180deg);
+}
+
+
+.flip-card5 {
+  background-color: transparent;
+  width: 100%;
+  height: 200px;
+  perspective: 1000px;
+}
+
+.flip-card-inner5 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card5:hover .flip-card-inner5 {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front5, .flip-card-back5 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-front5 {
+  background-color: #FFBFA9;
+  color: #8B4513;
+}
+
+.flip-card-back5 {
+  background-color: transparent;
+  color: #8B4513;
+  transform: rotateY(180deg);
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+    animation-duration: 4s;
+    animation-direction: reverse; 
+  }
+  40% {
+    transform: translateY(-30px);
+    animation-duration: 4s;
+    animation-direction: reverse; 
+  }
+  60% {
+    transform: translateY(-15px);
+    animation-duration: 4s;
+    animation-direction: reverse; 
+  }
+}
+
+.modal.show {
+  animation: bounce 1s;
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scroll-animation {
+  transform: translateY(100px);
+}
+
+.scroll-animation.animate {
+  animation: slideInFromBottom 0.8s ease forwards;
+}
+
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+.fade-scale.animate {
+  animation: fadeScale 0.8s ease forwards;
+}
+
+@keyframes flyIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.service-card {
+  animation: flyIn 1s ease forwards;
+}
+
+.service-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.service-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.service-card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.service-card:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.service-card:nth-child(5) {
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-close-button {
+  background-color: #008080;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-button:hover {
+  background-color: #006666;
+}
+
+.blinking-cursor {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.stat-box {
+    transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

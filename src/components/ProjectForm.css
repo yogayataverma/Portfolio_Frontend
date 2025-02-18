@@ -1,0 +1,122 @@
+.project-form-container {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.toggle-form-btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  background-color: #e07e36;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.toggle-form-btn:hover {
+  background-color: #c66b2f;
+  transform: translateY(-2px);
+}
+
+.project-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(224, 126, 54, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-form .form-label {
+  color: #e07e36;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.project-form .form-control {
+  border: 2px solid rgba(224, 126, 54, 0.2);
+  border-radius: 8px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.project-form .form-control:focus {
+  border-color: #e07e36;
+  box-shadow: 0 0 0 3px rgba(224, 126, 54, 0.1);
+}
+
+.submit-btn {
+  background-color: #e07e36;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #c66b2f;
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.admin-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toggle-form-btn {
+  flex: 1;
+}
+
+.logout-btn {
+  background-color: rgba(224, 126, 54, 0.2);
+  border: none;
+  padding: 12px 24px;
+  height: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: rgba(224, 126, 54, 0.2);
+  transform: translateY(-2px);
+}
+
+.admin-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(224, 126, 54, 0.1),
+    rgba(224, 126, 54, 0.05)
+  );
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

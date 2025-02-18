@@ -1,0 +1,63 @@
+        <div className="portfolio-container" style={{ backgroundColor:"transparent", border: '5% solid #BFA1E8'  , padding:"1%", textAlign:"center" , width:"50%" , marginTop:"15%" , marginLeft:"5%" , marginRight:"15%" , marginBottom:"0%"}}>
+            <h1 className="fade-in" style={{ marginTop:"0%" , marginLeft:"17%" , marginRight:"20%" , marginBottom:"0%", textAlign:"center" , fontSize:"2vw" , color:"#008080"}}>My Services</h1>
+            <br/>
+
+            <div style={{display:"flex"}}>
+            <div style={{width:"20%" , height:"100%"}}>
+            <Card style={{ width: '55rem' , marginTop:"5%" , border:"1px solid black" , padding:"5%" , marginRight:"2%" , padding:"1%" , height:"100%"}}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+                <Card.Title style={{fontSize:"100%"}}>Software Development</Card.Title>
+                <Card.Text>
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+                </Card.Text>
+                <Button variant="primary">Go somewhere</Button>
+            </Card.Body>
+            </Card>
+            </div>
+            
+            <div style={{marginTop:"2.5%" , marginRight:"2%" , width:"20%" , height:"100%"}}>
+            <Card style={{ width: '25rem' , marginTop:"5%" , border:"1px solid black" , padding:"5%" , marginRight:"2%"}}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+                </Card.Text>
+                <Button variant="primary">Go somewhere</Button>
+            </Card.Body>
+            </Card>
+
+            <Card style={{ width: '25rem' , marginTop:"5%" , border:"1px solid black" , padding:"5%", marginRight:"2%", width:"20%" ,  height:"100%"}}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+                </Card.Text>
+                <Button variant="primary">Go somewhere</Button>
+            </Card.Body>
+            </Card>
+            </div>
+
+            <div style={{ height:"100%" , width:"20%"}}>
+            <Card style={{ width: '25rem' , marginTop:"5%" , border:"1px solid black" , padding:"5%", marginRight:"2%"}}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+                </Card.Text>
+                <Button variant="primary">Go somewhere</Button>
+            </Card.Body>
+            </Card>
+            </div>
+
+            </div>
+           
+            
+        </div>

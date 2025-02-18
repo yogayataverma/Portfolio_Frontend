@@ -1,0 +1,53 @@
+.updates-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.update-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.update-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.update-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.update-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.update-category {
+  display: inline-block;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.update-description {
+  color: #555;
+  line-height: 1.5;
+  margin: 0;
+} 
