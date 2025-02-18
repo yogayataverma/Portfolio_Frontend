@@ -60,18 +60,18 @@ const Blog = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
-        if (Array.isArray(response.data)) {
-          setPosts(response.data);
-        } else {
-          console.error('Expected array of posts, received:', response.data);
-          setPosts([]);
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        setLoading(false);
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('Expected array of posts');
+        }
+        setPosts(data);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setPosts([]);
-        setLoading(false);
       }
     };
 
@@ -84,7 +84,7 @@ const Blog = () => {
         const commentsData = {};
         for (const post of posts) {
           const response = await axios.get(
-            `${process.env.REACT_APP_API_URL}/api/projects/${post._id}/comments`
+            `https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments`
           );
           commentsData[post._id] = response.data;
         }
@@ -141,23 +141,15 @@ const Blog = () => {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/updates`);
-        if (Array.isArray(response.data)) {
-          setUpdates(response.data.map(update => ({
-            id: update._id,
-            title: update.title,
-            description: update.description,
-            category: update.category,
-            date: new Date(update.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })
-          })));
-        } else {
-          console.error('Expected array of updates, received:', response.data);
-          setUpdates([]);
+        const response = await fetch('/api/updates');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('Expected array of updates');
+        }
+        setUpdates(data);
       } catch (error) {
         console.error('Error fetching updates:', error);
         setUpdates([]);
@@ -173,54 +165,25 @@ const Blog = () => {
 
   const fetchSkills = async () => {
     try {
-      setSkillsLoading(true);
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/skills`);
-      
-      // Check if response.data is valid
-      if (!response.data || typeof response.data !== 'object') {
-        throw new Error('Invalid response data format');
+      const response = await fetch('/api/skills');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      console.log('Raw skills data:', response.data);
-
-      // Initialize organized skills
-      const organized = {
-        'data-science': [],
-        'ai': []
-      };
-
-      // Safely process the data
-      if (Array.isArray(response.data)) {
-        response.data.forEach(category => {
-          if (category && category.name && Array.isArray(category.skills)) {
-            if (category.name === "Data Science Explorer") {
-              organized['data-science'] = [...organized['data-science'], ...category.skills];
-            } else if (category.name === "AI Enthusiast") {
-              organized['ai'] = [...organized['ai'], ...category.skills];
-            }
-          }
-        });
+      const data = await response.json();
+      if (!Array.isArray(data)) {
+        throw new Error('Expected array of skills');
       }
-
-      console.log('Organized skills:', organized);
-      setSkillsByCategory(organized);
-      setSkillsLoading(false);
-      setSkillsError(null);
+      setSkills(data);
     } catch (error) {
       console.error('Error fetching skills:', error);
-      setSkillsError(error.message);
-      setSkillsLoading(false);
-      setSkillsByCategory({
-        'data-science': [],
-        'ai': []
-      });
+      setSkills([]);
     }
   };
 
   const handleLike = async (postId) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/projects/like/${postId}`
+        `https://portfolio-backend-hdxw.onrender.com/api/projects/like/${postId}`
       );
       setPosts(
         posts.map((post) => (post._id === postId ? response.data : post))
@@ -233,7 +196,7 @@ const Blog = () => {
   const handleCommentSubmit = async (postId) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/projects/${postId}/comments`,
+        `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`,
         {
           content: commentInputs[postId],
         }
@@ -280,11 +243,11 @@ const Blog = () => {
   };
 
   // Add this filter function
-  const filteredPosts = Array.isArray(posts) ? posts.filter(
+  const filteredPosts = posts.filter(
     (post) =>
-      post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.content?.toLowerCase().includes(searchTerm.toLowerCase())
-  ) : [];
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleProjectSubmitted = (newProject) => {
     setPosts([newProject, ...posts]);
@@ -296,7 +259,7 @@ const Blog = () => {
 
   const addUpdate = async (updateData) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updates`, updateData);
+      const response = await axios.post('https://portfolio-backend-hdxw.onrender.com/api/updates', updateData);
       setUpdates(prevUpdates => [{
         id: response.data._id,
         title: response.data.title,
