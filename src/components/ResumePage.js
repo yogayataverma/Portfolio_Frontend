@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import rocks from "../island_enhanced.webp";
 import {
   FaEnvelope,
