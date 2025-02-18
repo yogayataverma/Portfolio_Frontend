@@ -6,10 +6,8 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaDownload,
-  FaCode,
 } from "react-icons/fa";
 import { ImLinkedin } from "react-icons/im";
-import { CgWorkAlt } from "react-icons/cg";
 import { IoCodeOutline } from "react-icons/io5";
 
 // Import the timeline components and stylesheet
@@ -23,7 +21,6 @@ import { LuBookmark } from "react-icons/lu";
 import { MdOutlineWorkOutline } from "react-icons/md";
 
 const ResumePage = () => {
-  const navigate = useNavigate();
 
   const downloadResume = () => {
     const resumeUrl = "/Resume.pdf";
