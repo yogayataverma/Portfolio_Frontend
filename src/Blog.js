@@ -60,11 +60,11 @@ const Blog = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("https://portfolio-backend-hdxw.onrender.com/api/projects");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
         setPosts(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error('Error fetching posts:', error);
         setLoading(false);
       }
     };
@@ -78,7 +78,7 @@ const Blog = () => {
         const commentsData = {};
         for (const post of posts) {
           const response = await axios.get(
-            `https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments`
+            `${process.env.REACT_APP_API_URL}/api/projects/${post._id}/comments`
           );
           commentsData[post._id] = response.data;
         }
@@ -135,7 +135,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        const response = await axios.get('https://portfolio-backend-hdxw.onrender.com/api/updates');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/updates`);
         setUpdates(response.data.map(update => ({
           id: update._id,
           title: update.title,
@@ -162,7 +162,7 @@ const Blog = () => {
   const fetchSkills = async () => {
     try {
       setSkillsLoading(true);
-      const response = await axios.get('https://portfolio-backend-hdxw.onrender.com/api/skills');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/skills`);
       console.log('Raw skills data:', response.data);
 
       // Organize skills by category
@@ -184,9 +184,9 @@ const Blog = () => {
       setSkillsByCategory(organized);
       setSkillsLoading(false);
       setSkillsError(null);
-    } catch (err) {
-      console.error('Error fetching skills:', err);
-      setSkillsError(err.message);
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+      setSkillsError(error.message);
       setSkillsLoading(false);
     }
   };
@@ -194,7 +194,7 @@ const Blog = () => {
   const handleLike = async (postId) => {
     try {
       const response = await axios.post(
-        `https://portfolio-backend-hdxw.onrender.com/api/projects/like/${postId}`
+        `${process.env.REACT_APP_API_URL}/api/projects/like/${postId}`
       );
       setPosts(
         posts.map((post) => (post._id === postId ? response.data : post))
@@ -207,7 +207,7 @@ const Blog = () => {
   const handleCommentSubmit = async (postId) => {
     try {
       const response = await axios.post(
-        `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`,
+        `${process.env.REACT_APP_API_URL}/api/projects/${postId}/comments`,
         {
           content: commentInputs[postId],
         }
@@ -270,7 +270,7 @@ const Blog = () => {
 
   const addUpdate = async (updateData) => {
     try {
-      const response = await axios.post('https://portfolio-backend-hdxw.onrender.com/api/updates', updateData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updates`, updateData);
       setUpdates(prevUpdates => [{
         id: response.data._id,
         title: response.data.title,
