@@ -37,6 +37,9 @@ const Portfolio = () => {
 
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
+  console.log(text);
+  console.log(index);
+  console.log(setIndex);
 
   const navigate = useNavigate();
 

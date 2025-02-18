@@ -38,7 +38,9 @@ const FIXED_CATEGORIES = [
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(setLoading);
   const [error, setError] = useState(null);
+  console.log(setError);
   const [comments, setComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
   // Use a single state variable to track which post's comments are visible
@@ -50,12 +52,17 @@ const Blog = () => {
   const [showUpdates, setShowUpdates] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [skills, setSkills] = useState([]);
+  console.log(skills);
   const [skillsLoading, setSkillsLoading] = useState(true);
+  console.log(setSkillsLoading);
   const [skillsError, setSkillsError] = useState(null);
+  console.log(setSkillsError);
   const [skillsByCategory, setSkillsByCategory] = useState({
     'data-science': [],
     'ai': []
   });
+
+  console.log(setSkillsByCategory);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -275,6 +282,8 @@ const Blog = () => {
       console.error('Error adding update:', error);
     }
   };
+
+  console.log(addUpdate);
 
   const handleOverlayClick = (e) => {
     // Only close if clicking the overlay background itself
