@@ -481,6 +481,7 @@ const Blog = () => {
                     <Button
                       href={post.githubLink}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="github-link-btn"
                     >
                       GitHub
@@ -490,6 +491,7 @@ const Blog = () => {
                     <Button
                       href={post.demoLink}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="demo-link-btn"
                     >
                       Live Demo

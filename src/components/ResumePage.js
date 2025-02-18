@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import rocks from "../island_enhanced.webp";
 import {
   FaEnvelope,
@@ -9,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { ImLinkedin } from "react-icons/im";
 import { IoCodeOutline } from "react-icons/io5";
+import AnimatedCursor from "react-animated-cursor";
 
 // Import the timeline components and stylesheet
 import {
@@ -21,7 +21,6 @@ import { LuBookmark } from "react-icons/lu";
 import { MdOutlineWorkOutline } from "react-icons/md";
 
 const ResumePage = () => {
-
   const downloadResume = () => {
     const resumeUrl = "/Resume.pdf";
     const link = document.createElement("a");
@@ -84,6 +83,40 @@ const ResumePage = () => {
         overflowY: "auto",
       }}
     >
+      <AnimatedCursor
+        innerSize={8}
+        outerSize={8}
+        color="193, 11, 111"
+        outerAlpha={0.2}
+        innerScale={0.7}
+        outerScale={5}
+        clickables={[
+          "a",
+          'input[type="text"]',
+          'input[type="email"]',
+          'input[type="number"]',
+          'input[type="submit"]',
+          'input[type="image"]',
+          "label[for]",
+          "select",
+          "textarea",
+          "button",
+          "body",
+          ".link",
+          {
+            target: ".custom",
+            options: {
+              innerSize: 12,
+              outerSize: 12,
+              color: "255, 255, 255",
+              outerAlpha: 0.3,
+              innerScale: 0.7,
+              outerScale: 5,
+            },
+          },
+        ]}
+      />
+
       <div
         style={{
           maxWidth: "2000px",

@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ai_pic from "./ai_pic.png";
 import rocks from "./island.webp";
-import github from "./github.svg";
-import CustomCursor from "./custom_cursor1.svg";
-import { PiGithubLogo } from "react-icons/pi";
-import { FiUser } from "react-icons/fi";
-import { RiLinkedinLine } from "react-icons/ri";
-import { LiaHackerrank } from "react-icons/lia";
-import { SiCodechef } from "react-icons/si";
 import AnimatedCursor from "react-animated-cursor";
 import { IoMdCodeWorking } from "react-icons/io";
 import { RiServiceLine } from "react-icons/ri";
 import "./App.css";
-import { FiPhoneCall } from "react-icons/fi";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { RiMessage3Line } from "react-icons/ri";
@@ -27,7 +19,7 @@ const Portfolio = () => {
   const [typingIndex, setTypingIndex] = useState(0);
   const [typingText, setTypingText] = useState("");
   const [cursorPosition, setCursorPosition] = useState(0);
-
+  console.log(typingText);
   const navigate = useNavigate();
 
   const skills = {
@@ -69,15 +61,7 @@ const Portfolio = () => {
     }, 150); // Adjust typing speed here
 
     return () => clearInterval(typingInterval);
-  }, [typingIndex, cursorPosition]);
-
-  const ab = () => {
-    navigate("/about");
-  };
-
-  const ser = () => {
-    navigate("/service");
-  };
+  });
 
   const project = () => {
     navigate("/project");
@@ -193,6 +177,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.linkedin.com/in/yverma2000/"
               style={{
                 textDecoration: "none",
@@ -235,6 +220,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.hackerrank.com/yogayatajugnu/"
               style={{
                 textDecoration: "none",
@@ -270,7 +256,7 @@ const Portfolio = () => {
           </li>
 
           <li className="navbar-item">
-            <a
+            <button
               onClick={resume}
               style={{
                 textDecoration: "none",
@@ -303,12 +289,13 @@ const Portfolio = () => {
               >
                 Resume
               </span>
-            </a>
+            </button>
           </li>
 
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.codechef.com/users/yogayatajugnu"
               style={{
                 textDecoration: "none",

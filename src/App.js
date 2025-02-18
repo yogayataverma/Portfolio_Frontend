@@ -1,32 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Home';
 import Portfolio from './Portfolio';
-import Recent from './Recent';
-import ai_pic from './ai_pic.png';
-import rocks from './island.webp';
-import github from './github.svg';
-import CustomCursor from "./custom_cursor1.svg";
-import { PiGithubLogo } from "react-icons/pi";
-import { RiLinkedinLine } from "react-icons/ri";
-import { LiaHackerrank } from "react-icons/lia";
-import { SiCodechef } from "react-icons/si";
-import AnimatedCursor from "react-animated-cursor"; 
 import About from './About';
 import Services from './Services';
 import Project from './Project';
-import Resume from './Resume';
 import Contact from './Contact';
-import { useState } from "react";
-import { Hearts, TailSpin } from "react-loader-spinner";
 import "./App.css";
 import Blog from './Blog';
-import AIChat from './components/AIChat';
 import ResumePage from './components/ResumePage';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
- 
   return (
     <Router>
       {/* <div style={{ textAlign: "center", margin: "auto" }}>

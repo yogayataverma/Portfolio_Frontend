@@ -1,24 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import ai_pic from "./ai_pic.png";
 import rocks from "./island_enhanced.webp";
-import github from "./github.svg";
-import CustomCursor from "./custom_cursor1.svg";
 import { PiGithubLogo } from "react-icons/pi";
 import { RiLinkedinLine } from "react-icons/ri";
-import { LiaCentercode, LiaHackerrank } from "react-icons/lia";
 import { SiCodechef } from "react-icons/si";
-import { SiLeetcode } from "react-icons/si";
 import { TbBrandLeetcode } from "react-icons/tb";
-import { LiaGithub } from "react-icons/lia";
 import AnimatedCursor from "react-animated-cursor";
 import "./App.css";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { stack } from "./stack.svg";
 import Loader from "./components/Loader";
 import AIChat from "./components/AIChat";
+import { LiaHackerrank } from "react-icons/lia";
+
 const Portfolio = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -238,7 +232,6 @@ const Portfolio = () => {
     <div
       className="portfolio-container"
       style={{
-        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
@@ -600,6 +593,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://github.com/yogayataverma/"
               style={{
                 textDecoration: "none",
@@ -642,6 +636,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.linkedin.com/in/yverma2000/"
               style={{
                 textDecoration: "none",
@@ -679,6 +674,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.hackerrank.com/yogayatajugnu/"
               style={{
                 textDecoration: "none",
@@ -717,6 +713,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://leetcode.com/u/yogayataverma/"
               style={{
                 textDecoration: "none",
@@ -753,6 +750,7 @@ const Portfolio = () => {
           <li className="navbar-item">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.codechef.com/users/yogayatajugnu"
               style={{
                 textDecoration: "none",
@@ -1124,7 +1122,6 @@ const Portfolio = () => {
               marginTop: "0%",
               marginLeft: "17%",
               marginRight: "20%",
-              marginBottom: "0%",
               textAlign: "center",
               fontSize: "2vw",
               color: "#008080",
@@ -1270,7 +1267,6 @@ const Portfolio = () => {
           fontFamily: "Comic Sans MS, Comic Sans, cursive",
           padding: "1%",
           textAlign: "center",
-          width: "50%",
           backgroundImage: `url(${ai_pic})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
