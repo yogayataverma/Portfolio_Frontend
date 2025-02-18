@@ -67,7 +67,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts');
+        const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/posts');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -148,7 +148,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        const response = await fetch('/api/updates');
+        const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/updates');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -172,7 +172,7 @@ const Blog = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch('/api/skills');
+      const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
