@@ -18,7 +18,7 @@ const AdminLogin = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+      const response = await axios.post('https://portfolio-backend-hdxw.onrender.com/api/auth/login', credentials);
       if (response.data.token) {
         localStorage.setItem('authToken', response.data.token);
         onLogin(true);

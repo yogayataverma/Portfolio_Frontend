@@ -37,7 +37,7 @@ const ProjectForm = ({ onProjectSubmitted }) => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('http://localhost:5000/api/projects', formData, {
+      const response = await axios.post('https://portfolio-backend-hdxw.onrender.com/api/projects', formData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
