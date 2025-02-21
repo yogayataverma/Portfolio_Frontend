@@ -22,10 +22,6 @@ const AIChat = () => {
     
     try {
       console.log('Sending message to server...');
-      // Use the full URL in development
-      const apiUrl = process.env.NODE_ENV === 'development' 
-        ? 'https://portfolio-backend-hdxw.onrender.com/api/chat'
-        : 'https://portfolio-backend-hdxw.onrender.com/api/chat';
 
       const response = await fetch( "https://portfolio-backend-hdxw.onrender.com/api/chat", {
         method: 'POST',
