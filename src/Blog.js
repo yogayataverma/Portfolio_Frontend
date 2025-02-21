@@ -38,9 +38,7 @@ const FIXED_CATEGORIES = [
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(setLoading);
   const [error, setError] = useState(null);
-  console.log(setError);
   const [comments, setComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
   // Use a single state variable to track which post's comments are visible
@@ -52,11 +50,8 @@ const Blog = () => {
   const [showUpdates, setShowUpdates] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [skills, setSkills] = useState([]);
-  console.log(skills);
   const [skillsLoading, setSkillsLoading] = useState(true);
-  console.log(setSkillsLoading);
   const [skillsError, setSkillsError] = useState(null);
-  console.log(setSkillsError);
   const [skillsByCategory, setSkillsByCategory] = useState({
     'data-science': [],
     'ai': []
@@ -67,11 +62,13 @@ const Blog = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/posts');
+        setLoading(true);
+        const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/projects');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log('Fetched projects:', data);
         if (!Array.isArray(data)) {
           throw new Error('Expected array of posts');
         }
@@ -79,11 +76,16 @@ const Blog = () => {
       } catch (error) {
         console.error('Error fetching posts:', error);
         setPosts([]);
+        setError('Failed to load posts');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPosts();
   }, []);
+
+  console.log('Current posts state:', posts);
 
   useEffect(() => {
     const fetchComments = async () => {
