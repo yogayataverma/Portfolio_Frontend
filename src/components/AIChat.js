@@ -21,41 +21,30 @@ const AIChat = () => {
     setIsTyping(true);
     
     try {
-      console.log('Sending message to server...');
-
       const response = await fetch("https://portfolio-backend-hdxw.onrender.com/api/chat", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Origin': '*',
         },
-        mode: 'no-cors',
-        credentials: 'include',
         body: JSON.stringify({ message: inputMessage }),
       });
 
-      console.log('Response status:', response.status);
-      const data = await response.json();
-      console.log('Response data:', data);
-
       if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
+      const data = await response.json();
 
       setMessages(prev => [...prev, { 
-        text: data.response, 
+        text: data.response || 'Sorry, I received an empty response.', 
         sender: 'ai' 
       }]);
 
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { 
-        text: `Error: ${error.message || "I'm having trouble responding right now. Please try again later."}`, 
+        text: "I'm having trouble connecting to the server. Please try again later.", 
         sender: 'ai' 
       }]);
     } finally {
