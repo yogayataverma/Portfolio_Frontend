@@ -28,7 +28,7 @@ const AIChat = () => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Origin': window.location.origin
+          'Origin': '*',
         },
         mode: 'cors',
         credentials: 'include',
