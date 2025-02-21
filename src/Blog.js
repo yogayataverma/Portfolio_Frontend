@@ -323,6 +323,30 @@ const Blog = () => {
     });
   };
 
+  // Example of how to make a chat API request
+  const fetchChatResponse = async (message) => {
+    try {
+      const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat response:', error);
+      throw error;
+    }
+  };
+
   return (
     <div className="blog-container">
       <AnimatedCursor
