@@ -30,7 +30,7 @@ const AIChat = () => {
           'Accept': 'application/json',
           'Origin': '*',
         },
-        mode: 'cors',
+        mode: 'no-cors',
         credentials: 'include',
         body: JSON.stringify({ message: inputMessage }),
       });
