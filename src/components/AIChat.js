@@ -27,7 +27,7 @@ const AIChat = () => {
         ? 'https://portfolio-backend-hdxw.onrender.com/api/chat'
         : 'https://portfolio-backend-hdxw.onrender.com/api/chat';
 
-      const response = await fetch(apiUrl, {
+      const response = await fetch( "https://portfolio-backend-hdxw.onrender.com/api/chat", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
