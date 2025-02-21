@@ -26,12 +26,12 @@ const FIXED_CATEGORIES = [
   {
     name: "Data Science Explorer",
     icon: "FaChartBar",
-    id: "data-science"
+    id: "Data Science Explorer"
   },
   {
     name: "AI Enthusiast",
     icon: "FaRobot",
-    id: "ai"
+    id: "AI Enthusiast"
   }
 ];
 
@@ -180,18 +180,27 @@ const Blog = () => {
 
   const fetchSkills = async () => {
     try {
+      setSkillsLoading(true);
       const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+      console.log('Raw skills data:', data); // Debug log
+      
       if (!Array.isArray(data)) {
         throw new Error('Expected array of skills');
       }
+
+      // Log the filtered data
+      console.log('Data Science skills:', data.filter(skill => skill.category === 'data-science'));
+      console.log('AI skills:', data.filter(skill => skill.category === 'ai'));
+      
       setSkills(data);
+      setSkillsLoading(false);
     } catch (error) {
       console.error('Error fetching skills:', error);
-      setSkills([]);
+      setSkillsError(error.message);
     }
   };
 
@@ -364,33 +373,47 @@ const Blog = () => {
               <p>Exploring the intersection of data, AI, and creativity in my spare time</p>
             </div>
 
-            {FIXED_CATEGORIES.map((category) => (
-              <div key={category.id} className="expertise-category">
-                <h3>
-                  <span className="category-icon">
-                    {category.icon === 'FaChartBar' && <FaChartBar />}
-                    {category.icon === 'FaRobot' && <FaRobot />}
-                  </span>
-                  {category.name}
-                </h3>
-                <div className="expertise-items">
-                  {skillsByCategory[category.id].map((skill) => (
-                    <div key={skill._id} className="expertise-card">
-                      <div className="card-header">
-                        <h4>{skill.title}</h4>
-                        <span className="tech-badge">{skill.technology}</span>
+            {FIXED_CATEGORIES.map((category) => {
+              const categorySkills = skills.filter(skill => skill.name === category.id);
+              
+              return (
+                <div key={category.id} className="expertise-category">
+                  <h3>
+                    <span className="category-icon">
+                      {category.icon === 'FaChartBar' && <FaChartBar />}
+                      {category.icon === 'FaRobot' && <FaRobot />}
+                    </span>
+                    {category.name}
+                  </h3>
+                  <div className="expertise-items">
+                    {categorySkills.length > 0 ? (
+                      categorySkills.map((skill) => (
+                        <div key={skill._id} className="expertise-card">
+                          {skill.skills.map((subSkill, index) => (
+                            <div key={index} className="skill-item">
+                              <div className="card-header">
+                                <h4>{subSkill.title}</h4>
+                                <span className="tech-badge">{subSkill.technology}</span>
+                              </div>
+                              <p>{subSkill.description}</p>
+                              <ul style={{listStyleType: 'none'}}>
+                                {subSkill.bulletPoints && subSkill.bulletPoints.map((point, index) => (
+                                  <li key={index}>{point}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="no-skills-message">
+                        No skills added for this category yet.
                       </div>
-                      <p>{skill.description}</p>
-                      <ul style={{listStyleType: 'none'}}>
-                        {skill.bulletPoints.map((point, index) => (
-                          <li key={index}>{point}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </>
         )}
       </div>
