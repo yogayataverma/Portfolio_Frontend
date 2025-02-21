@@ -60,6 +60,8 @@ const Blog = () => {
   console.log(setSkillsByCategory);
   console.log(skills);
   console.log(skillsLoading);
+  console.log(setSkillsLoading);
+  console.log(skillsByCategory);
   console.log(skillsError);
 
   useEffect(() => {
