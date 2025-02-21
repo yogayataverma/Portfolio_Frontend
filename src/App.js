@@ -4,7 +4,6 @@ import Home from './Home';
 import Portfolio from './Portfolio';
 import About from './About';
 import Services from './Services';
-import Project from './Project';
 import Contact from './Contact';
 import "./App.css";
 import Blog from './Blog';
@@ -36,7 +35,6 @@ const App = () => {
           <Route path="/recent"  element={<Blog />} />
           <Route path="/about"  element={<About />} />
           <Route path="/service"  element={<Services />} />
-          <Route path="/project"  element={<Project />} />
           <Route path="/resume"  element={<ResumePage />} />
           <Route path="/contact"  element={<Contact />} />
         </Routes>
