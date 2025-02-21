@@ -60,9 +60,9 @@ const AIChat = () => {
 
   const TypingIndicator = () => (
     <div className="typing-indicator">
-      <div className="dot"></div>
-      <div className="dot"></div>
-      <div className="dot"></div>
+      <div className="typing-bubble"></div>
+      <div className="typing-bubble"></div>
+      <div className="typing-bubble"></div>
     </div>
   );
 
