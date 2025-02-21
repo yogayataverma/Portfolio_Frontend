@@ -23,12 +23,14 @@ const AIChat = () => {
     try {
       console.log('Sending message to server...');
 
-      const response = await fetch( "https://portfolio-backend-hdxw.onrender.com/api/chat", {
+      const response = await fetch("https://portfolio-backend-hdxw.onrender.com/api/chat", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Origin': window.location.origin
         },
+        mode: 'cors',
         credentials: 'include',
         body: JSON.stringify({ message: inputMessage }),
       });
