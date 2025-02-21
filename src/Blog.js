@@ -347,6 +347,8 @@ const Blog = () => {
     }
   };
 
+  console.log(fetchChatResponse);
+
   return (
     <div className="blog-container">
       <AnimatedCursor
