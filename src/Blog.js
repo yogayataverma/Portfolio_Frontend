@@ -58,6 +58,9 @@ const Blog = () => {
   });
 
   console.log(setSkillsByCategory);
+  console.log(skills);
+  console.log(skillsLoading);
+  console.log(skillsError);
 
   useEffect(() => {
     const fetchPosts = async () => {
