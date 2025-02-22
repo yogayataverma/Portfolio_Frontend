@@ -858,20 +858,14 @@ const Portfolio = () => {
             Typescript, Django and Angular. Strong project management skills
             with a Master's in Computer Applications from Thapar University.
           </p>
-          <button
-            className="button button1 fade-in"
-            style={{ width: "12em", marginLeft: "1%" }}
-            onClick={pnavigate}
-          >
-            Portifolio
-          </button>
-          <button
-            className="button button2 fade-in"
-            style={{ width: "12em" }}
-            onClick={rnavigate}
-          >
-            Recent Updates
-          </button>
+          <div className="button-container" style={{ marginLeft: "-9%" }}>
+            <button className="portfolio-button" onClick={pnavigate}>
+              Portfolio
+            </button>
+            <button className="recent-updates-button" onClick={rnavigate}>
+              Recent Updates
+            </button>
+          </div>
         </div>
 
         <div
@@ -1029,7 +1023,12 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div class="flip-card4 service-card">
+            <div class="flip-card4 service-card" style={{ 
+              marginTop: "-192px",
+              marginLeft: "41%",
+              width: "28%",
+              height: "190px"
+            }}>
               <div class="flip-card-inner4">
                 <div
                   class="flip-card-front4 rounded"
@@ -1053,7 +1052,6 @@ const Portfolio = () => {
                   }}
                 >
                   <div class="card-body" style={{ textAlign: "center" }}>
-                    {/* <h5 class="card-title">Optimize Workflows</h5> */}
                     <p class="card-text">
                       Accelerate development and enhance efficiency with DevOps
                       & Automation practices.
@@ -1063,7 +1061,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div class="flip-card5 service-card" style={{ marginTop: "5px" }}>
+            <div class="flip-card5 service-card" style={{ marginTop: "7px" }}>
               <div class="flip-card-inner5">
                 <div
                   class="flip-card-front5 rounded"
@@ -1087,7 +1085,6 @@ const Portfolio = () => {
                   }}
                 >
                   <div class="card-body" style={{ textAlign: "center" }}>
-                    {/* <h5 class="card-title">Transform Your Vision</h5> */}
                     <p class="card-text">
                       Creative designs, when strategically managed, have the
                       power to transform projects into visually appealing and

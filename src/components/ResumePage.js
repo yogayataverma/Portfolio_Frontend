@@ -79,7 +79,7 @@ const ResumePage = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-        padding: "2rem",
+        padding: "1rem",
         overflowY: "auto",
       }}
     >
@@ -122,7 +122,7 @@ const ResumePage = () => {
           maxWidth: "2000px",
           margin: "0 auto",
           borderRadius: "20px",
-          padding: "3rem",
+          padding: "1.5rem",
         }}
       >
         {/* Timeline Section */}
@@ -184,15 +184,16 @@ const ResumePage = () => {
         </div>
 
         {/* Header & Enhanced Contact Panel */}
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <p
             style={{
               color: "#556B2F",
-              fontSize: "1.3em",
+              fontSize: "1.1em",
               marginBottom: "1.5rem",
               fontStyle: "italic",
               maxWidth: "800px",
               margin: "0 auto 2rem",
+              padding: "0 1rem",
             }}
           >
             "Within every line of code lies a spark of creativity, igniting
@@ -202,13 +203,12 @@ const ResumePage = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: "2rem",
-              flexWrap: "nowrap",
-              padding: "1.5rem",
+              gap: "1rem",
+              flexWrap: "wrap",
+              padding: "1rem",
               borderRadius: "15px",
               maxWidth: "1200px",
               margin: "0 auto",
-              overflowX: "auto",
             }}
           >
             {/* Gmail Card */}
@@ -223,6 +223,10 @@ const ResumePage = () => {
                 transition: "transform 0.3s ease, background 0.3s ease",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                minWidth: "auto",
+                flex: "1 1 auto",
+                maxWidth: "300px",
+                margin: "0.5rem",
               }}
               onClick={() =>
                 window.open("mailto:yogayatajugnu@gmail.com", "_blank")
@@ -237,7 +241,7 @@ const ResumePage = () => {
               }}
             >
               <FaEnvelope style={{ color: "#008080", fontSize: "1.4em" }} />
-              <span style={{ fontSize: "1.1em", color: "#333" }}>
+              <span style={{ fontSize: "1.1em", color: "#333", textAlign: "center", flex: "1" }}>
                 yogayatajugnu@gmail.com
               </span>
             </div>
@@ -246,13 +250,18 @@ const ResumePage = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "0.8rem",
-                padding: "0.8rem 1.2rem",
+                padding: "1.2rem 1.2rem",
                 borderRadius: "10px",
                 background: "rgba(255,255,255,0.8)",
                 transition: "transform 0.3s ease, background 0.3s ease",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                minWidth: "auto",
+                flex: "1 1 auto",
+                maxWidth: "300px",
+                margin: "0.5rem",
               }}
               onClick={() =>
                 window.open("https://wa.me/917986258542", "_blank")
@@ -267,7 +276,13 @@ const ResumePage = () => {
               }}
             >
               <FaPhone style={{ color: "#008080", fontSize: "1.2em" }} />
-              <span style={{ color: "#333" }}>+91 7986258542</span>
+              <span style={{ 
+                color: "#333",
+                textAlign: "center",
+                flex: "1",
+              }}>
+                +91 7986258542
+              </span>
             </div>
             {/* Location Card */}
             <div
@@ -281,6 +296,10 @@ const ResumePage = () => {
                 transition: "transform 0.3s ease, background 0.3s ease",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                minWidth: "auto",
+                flex: "1 1 auto",
+                maxWidth: "300px",
+                margin: "0.5rem",
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = "translateY(-2px)";
@@ -292,7 +311,7 @@ const ResumePage = () => {
               }}
             >
               <FaMapMarkerAlt style={{ color: "#008080", fontSize: "1.2em" }} />
-              <span style={{ color: "#333" }}>Zirakpur, Punjab</span>
+              <span style={{ color: "#333" , textAlign: "center", flex: "1" }}>Zirakpur, Punjab</span>
             </div>
             {/* LinkedIn Card */}
             <div
@@ -306,6 +325,10 @@ const ResumePage = () => {
                 transition: "transform 0.3s ease, background 0.3s ease",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                minWidth: "auto",
+                flex: "1 1 auto",
+                maxWidth: "300px",
+                margin: "0.5rem",
               }}
               onClick={() =>
                 window.open("https://www.linkedin.com/in/yverma2000/", "_blank")
@@ -320,7 +343,7 @@ const ResumePage = () => {
               }}
             >
               <ImLinkedin style={{ color: "#008080", fontSize: "1.4em" }} />
-              <span style={{ fontSize: "1.1em", color: "#333" }}>
+              <span style={{ fontSize: "1.1em", color: "#333", textAlign: "center", flex: "1"}}>
                 LinkedIn Profile
               </span>
             </div>
@@ -328,14 +351,14 @@ const ResumePage = () => {
         </div>
 
         {/* Stats Cards Section */}
-        <div style={{ marginBottom: "5rem", marginTop: "5rem" }}>
+        <div style={{ marginBottom: "3rem", marginTop: "3rem" }}>
           <div
             style={{
-              display: "flex",
-              gap: "1.5rem",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1rem",
+              padding: "1rem",
               justifyContent: "center",
-              overflowX: "auto",
-              padding: "1rem 1rem",
             }}
           >
             {stats.map((stat, index) => (
@@ -344,13 +367,12 @@ const ResumePage = () => {
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(243,225,206,0.7), rgba(255,228,196,0.7))",
-                  padding: "2rem",
+                  padding: "1.5rem",
                   borderRadius: "20px",
                   textAlign: "center",
                   boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
                   border: "1px solid #E07E36",
                   transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  minWidth: "250px",
                 }}
                 onMouseOver={(e) => {
                   e.currentTarget.style.transform = "translateY(-5px)";
@@ -367,7 +389,7 @@ const ResumePage = () => {
                   style={{
                     color: "#008080",
                     marginBottom: "0.8rem",
-                    fontSize: "2.2em",
+                    fontSize: "1.8em",
                     fontWeight: "700",
                   }}
                 >
@@ -376,7 +398,7 @@ const ResumePage = () => {
                 <p
                   style={{
                     color: "#556B2F",
-                    fontSize: "1.1em",
+                    fontSize: "1em",
                     fontWeight: "500",
                   }}
                 >
@@ -388,12 +410,13 @@ const ResumePage = () => {
         </div>
 
         {/* Download Resume Section */}
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <p
             style={{
               color: "#556B2F",
-              marginBottom: "2rem",
-              fontSize: "1.1em",
+              marginBottom: "1.5rem",
+              fontSize: "1em",
+              padding: "0 1rem",
             }}
           >
             Explore a comprehensive view of my skills, experiences, and
@@ -402,8 +425,8 @@ const ResumePage = () => {
           <button
             onClick={downloadResume}
             style={{
-              padding: "1rem 2.5rem",
-              fontSize: "1.2rem",
+              padding: "0.8rem 2rem",
+              fontSize: "1.1rem",
               borderRadius: "50px",
               border: "none",
               background: "linear-gradient(135deg, #008080 0%, #006666 100%)",

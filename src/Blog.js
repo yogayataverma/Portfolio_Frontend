@@ -459,7 +459,13 @@ const Blog = () => {
             <div key={update.id} className="update-card">
               <div className="update-header">
                 <h3>{update.title}</h3>
-                <span className="update-date">{update.date}</span>
+                <span className="update-date">
+                  {new Date(update.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </span>
               </div>
               <span className="update-category">{update.category}</span>
               <p className="update-description">{update.description}</p>
