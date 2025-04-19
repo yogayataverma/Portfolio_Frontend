@@ -855,7 +855,7 @@ const Portfolio = () => {
           >
             Experienced Software Developer with extensive full-time experience
             in full-stack development, specializing in React.js, Node.js,
-            Typescript, Django and Angular. Strong project management skills
+            Typescript, Django and Java. Strong project management skills
             with a Master's in Computer Applications from Thapar University.
           </p>
           <div className="button-container" style={{ marginLeft: "-9%" }}>
