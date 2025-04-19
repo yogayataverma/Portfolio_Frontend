@@ -33,6 +33,11 @@ const FIXED_CATEGORIES = [
     name: "AI Enthusiast",
     icon: "FaRobot",
     id: "AI Enthusiast"
+  },
+  {
+    name: "System Design",
+    icon: "MdOutlineDesignServices ",
+    id: "System Design"
   }
 ];
 
@@ -409,6 +414,7 @@ const Blog = () => {
                     <span className="category-icon">
                       {category.icon === 'FaChartBar' && <FaChartBar />}
                       {category.icon === 'FaRobot' && <FaRobot />}
+                      {category.icon === 'MdOutlineDesignServices' && <MdOutlineDesignServices  />}
                     </span>
                     {category.name}
                   </h3>
