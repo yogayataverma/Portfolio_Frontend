@@ -71,7 +71,7 @@ const Blog = () => {
         setLoading(true);
         const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/projects');
         if (!response.ok) {
-          throw new Error(HTTP error! status: ${response.status});
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         console.log('Fetched projects:', data);
@@ -99,7 +99,7 @@ const Blog = () => {
         const commentsData = {};
         for (const post of posts) {
           const response = await axios.get(
-            https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments
+            `https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments`
           );
           commentsData[post._id] = response.data;
         }
@@ -158,7 +158,7 @@ const Blog = () => {
       try {
         const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/updates');
         if (!response.ok) {
-          throw new Error(HTTP error! status: ${response.status});
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         if (!Array.isArray(data)) {
@@ -183,7 +183,7 @@ const Blog = () => {
       setSkillsLoading(true);
       const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
       if (!response.ok) {
-        throw new Error(HTTP error! status: ${response.status});
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       console.log('Raw skills data:', data); // Debug log
@@ -207,7 +207,7 @@ const Blog = () => {
   const handleLike = async (postId) => {
     try {
       const response = await axios.post(
-        https://portfolio-backend-hdxw.onrender.com/api/projects/like/${postId}
+        `https://portfolio-backend-hdxw.onrender.com/api/projects/like/${postId}`
       );
       setPosts(
         posts.map((post) => (post._id === postId ? response.data : post))
@@ -220,7 +220,7 @@ const Blog = () => {
   const handleCommentSubmit = async (postId) => {
     try {
       const response = await axios.post(
-        https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments,
+        `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`,
         {
           content: commentInputs[postId],
         }
@@ -336,7 +336,7 @@ const Blog = () => {
       });
 
       if (!response.ok) {
-        throw new Error(HTTP error! status: ${response.status});
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -377,7 +377,7 @@ const Blog = () => {
         <FaTools />
       </div>
 
-      <div className={skills-sidebar ${showSkills ? 'show' : ''}}>
+      <div className={`skills-sidebar ${showSkills ? 'show' : ''}`}>
         <div className="skills-sidebar-header">
           <h2>Hobbyist Projects</h2>
           <button className="close-sidebar" onClick={() => setShowSkills(false)}>×</button>
@@ -449,7 +449,7 @@ const Blog = () => {
         <span className="update-count">{updates.length}</span>
       </div>
 
-      <div className={updates-sidebar ${showUpdates ? 'show' : ''}}>
+      <div className={`updates-sidebar ${showUpdates ? 'show' : ''}`}>
         <div className="updates-sidebar-header">
           <h2 className="section-title">Latest Updates</h2>
           <button className="close-sidebar" onClick={() => setShowUpdates(false)}>×</button>
@@ -572,7 +572,7 @@ const Blog = () => {
                 </div>
                 <div className="post-interactions">
                   <button
-                    className={interaction-btn ${post.isLiked ? "liked" : ""}}
+                    className={`interaction-btn ${post.isLiked ? "liked" : ""}`}
                     onClick={() => handleLike(post._id)}
                   >
                     {post.isLiked ? <FaHeart /> : <FaRegHeart />}
