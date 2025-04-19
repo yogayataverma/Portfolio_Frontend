@@ -1603,3 +1603,26 @@ button:active,
 }
 
 
+.github-link-btn,
+.demo-link-btn {
+  /* your normal styles… */
+  background-color: transparent;
+  color: #e07e36;
+  border: 1px solid #e07e36;
+}
+
+.github-link-btn:focus,
+.demo-link-btn:focus,
+.github-link-btn:active,
+.demo-link-btn:active,
+.github-link-btn.active,
+.demo-link-btn.active {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  color: #e07e36 !important;
+  border-color: #e07e36 !important;
+  transform: none !important;  /* undo any translate on click */
+}
+
+
