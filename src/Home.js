@@ -108,7 +108,7 @@ const Portfolio = () => {
 
     // Get the stored count from localStorage, default to 0 if not exists
     // const storedCount = Number(localStorage.getItem("visitorCount")) || 0;
-    const newCount = storedCount + 1;
+    // const newCount = storedCount + 1;
 
     // setVisitorCount(newCount);
     // localStorage.setItem("visitorCount", newCount.toString());
