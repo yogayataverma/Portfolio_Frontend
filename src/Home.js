@@ -1256,27 +1256,27 @@ const Portfolio = () => {
         <div></div>
       </div>
 
-      <div
-        className="portfolio-container fade-in"
-        style={{
-          backgroundColor: "#CCA8E0",
-          borderRadius: "1%",
-          border: "5% solid black",
-          borderBottomLeftRadius: "50%",
-          borderTopLeftRadius: "50%",
-          fontFamily: "Comic Sans MS, Comic Sans, cursive",
-          padding: "1%",
-          textAlign: "center",
-          backgroundImage: `url(${ai_pic})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          position: "fixed",
-          height: "100%",
-          marginLeft: "60%",
-          width: "40%",
-        }}
-      >
+      // <div
+      //   className="portfolio-container fade-in"
+      //   style={{
+      //     backgroundColor: "#CCA8E0",
+      //     borderRadius: "1%",
+      //     border: "5% solid black",
+      //     borderBottomLeftRadius: "50%",
+      //     borderTopLeftRadius: "50%",
+      //     fontFamily: "Comic Sans MS, Comic Sans, cursive",
+      //     padding: "1%",
+      //     textAlign: "center",
+      //     backgroundImage: `url(${ai_pic})`,
+      //     backgroundRepeat: "no-repeat",
+      //     backgroundPosition: "center",
+      //     backgroundSize: "cover",
+      //     position: "fixed",
+      //     height: "100%",
+      //     marginLeft: "60%",
+      //     width: "40%",
+      //   }}
+      // >
         // <button
         //   style={{
         //     height: "30px",
