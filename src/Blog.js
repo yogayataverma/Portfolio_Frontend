@@ -14,6 +14,8 @@ import {
   FaRobot,
   FaRocket,
 } from "react-icons/fa";
+import { GiStraightPipe } from "react-icons/gi";
+import { MdOutlineDesignServices } from "react-icons/md";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Blog.css";
@@ -32,6 +34,16 @@ const FIXED_CATEGORIES = [
     name: "AI Enthusiast",
     icon: "FaRobot",
     id: "AI Enthusiast"
+  },
+  {
+    name: "System Design",
+    icon: "FaRobot",
+    id: "MdOutlineDesignServices"
+  },
+  {
+    name: "CI/CD",
+    icon: "GiStraightPipe",
+    id: "CI/CD"
   }
 ];
 
@@ -408,6 +420,8 @@ const Blog = () => {
                     <span className="category-icon">
                       {category.icon === 'FaChartBar' && <FaChartBar />}
                       {category.icon === 'FaRobot' && <FaRobot />}
+                      {category.icon === 'MdOutlineDesignServices' && <MdOutlineDesignServices />}
+                      {category.icon === 'GiStraightPipe' && <GiStraightPipe />}
                     </span>
                     {category.name}
                   </h3>
