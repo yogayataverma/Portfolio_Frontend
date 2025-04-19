@@ -99,7 +99,7 @@ const Portfolio = () => {
     navigate("/recent");
   };
 
-  const [visitorCount, setVisitorCount] = useState(0);
+  // const [visitorCount, setVisitorCount] = useState(0);
   const effectRan = useRef(false);
 
   useEffect(() => {
@@ -107,11 +107,11 @@ const Portfolio = () => {
     effectRan.current = true;
 
     // Get the stored count from localStorage, default to 0 if not exists
-    const storedCount = Number(localStorage.getItem("visitorCount")) || 0;
+    // const storedCount = Number(localStorage.getItem("visitorCount")) || 0;
     const newCount = storedCount + 1;
 
-    setVisitorCount(newCount);
-    localStorage.setItem("visitorCount", newCount.toString());
+    // setVisitorCount(newCount);
+    // localStorage.setItem("visitorCount", newCount.toString());
   }, []);
 
   const useIntersectionObserver = (elementRef, threshold = 0.1) => {
