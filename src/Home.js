@@ -1256,27 +1256,27 @@ const Portfolio = () => {
         <div></div>
       </div>
 
-      // <div
-      //   className="portfolio-container fade-in"
-      //   style={{
-      //     backgroundColor: "#CCA8E0",
-      //     borderRadius: "1%",
-      //     border: "5% solid black",
-      //     borderBottomLeftRadius: "50%",
-      //     borderTopLeftRadius: "50%",
-      //     fontFamily: "Comic Sans MS, Comic Sans, cursive",
-      //     padding: "1%",
-      //     textAlign: "center",
-      //     backgroundImage: `url(${ai_pic})`,
-      //     backgroundRepeat: "no-repeat",
-      //     backgroundPosition: "center",
-      //     backgroundSize: "cover",
-      //     position: "fixed",
-      //     height: "100%",
-      //     marginLeft: "60%",
-      //     width: "40%",
-      //   }}
-      // >
+      <div
+        className="portfolio-container fade-in"
+        style={{
+          backgroundColor: "#CCA8E0",
+          borderRadius: "1%",
+          border: "5% solid black",
+          borderBottomLeftRadius: "50%",
+          borderTopLeftRadius: "50%",
+          fontFamily: "Comic Sans MS, Comic Sans, cursive",
+          padding: "1%",
+          textAlign: "center",
+          backgroundImage: `url(${ai_pic})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          position: "fixed",
+          height: "100%",
+          marginLeft: "60%",
+          width: "40%",
+        }}
+      >
         // <button
         //   style={{
         //     height: "30px",
@@ -1293,33 +1293,33 @@ const Portfolio = () => {
         //   {visitorCount}
         // </button>
 
-        // <button
-        //   style={{
-        //     height: "30px",
-        //     border: "2px solid #E0A593",
-        //     borderRadius: "50%",
-        //     background: "#E0A593",
-        //     width: "30px",
-        //     position: "absolute",
-        //     right: "10px", // Adjust the distance from the right edge
-        //     top: "10px", // Adjust the distance from the top edge
-        //   }}
-        //   onClick={openModal}
-        // >
-        //   <svg
-        //     xmlns="http://www.w3.org/2000/svg"
-        //     width="16"
-        //     height="16"
-        //     fill="#8B4513"
-        //     class="bi bi-layers"
-        //     viewBox="0 0 16 16"
-        //     style={{ background: "transparent", marginTop: "-20%" }}
-        //   >
-        //     <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0zM8 9.433 1.562 6 8 2.567 14.438 6z" />
-        //   </svg>
-        // </button>
-        // // <AIChat />
-      // </div>
+        <button
+          style={{
+            height: "30px",
+            border: "2px solid #E0A593",
+            borderRadius: "50%",
+            background: "#E0A593",
+            width: "30px",
+            position: "absolute",
+            right: "10px", // Adjust the distance from the right edge
+            top: "10px", // Adjust the distance from the top edge
+          }}
+          onClick={openModal}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="#8B4513"
+            class="bi bi-layers"
+            viewBox="0 0 16 16"
+            style={{ background: "transparent", marginTop: "-20%" }}
+          >
+            <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0zM8 9.433 1.562 6 8 2.567 14.438 6z" />
+          </svg>
+        </button>
+        // <AIChat />
+      </div>
     </div>
   );
 }
