@@ -37,8 +37,8 @@ const FIXED_CATEGORIES = [
   },
   {
     name: "System Design",
-    icon: "FaRobot",
-    id: "MdOutlineDesignServices"
+    icon: "MdOutlineDesignServices",
+    id: "System Design"
   },
   {
     name: "CI/CD",
