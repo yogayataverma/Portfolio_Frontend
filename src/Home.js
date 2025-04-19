@@ -10,7 +10,7 @@ import "./App.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Loader from "./components/Loader";
-import AIChat from "./components/AIChat";
+// import AIChat from "./components/AIChat";
 import { LiaHackerrank } from "react-icons/lia";
 
 const Portfolio = () => {
