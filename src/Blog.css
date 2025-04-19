@@ -517,7 +517,7 @@
 .demo-link-btn:active {
   outline: none;
   box-shadow: 0 0 0 3px rgba(224, 126, 54, 0.4); /* A soft brand-colored ring */
-  background-color: #e07e36;
+  background-color: transparent;
 }
 
 .search-container {
