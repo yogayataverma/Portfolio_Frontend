@@ -1572,4 +1572,34 @@
   background: #d06e26;
 }
 
+/* remove the blue “tap‑highlight” on mobile WebKit */
+button,
+.github-link-btn,
+.demo-link-btn,
+.view-project-btn,
+.interaction-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* remove the default focus outline/inner border */
+button:focus,
+.github-link-btn:focus,
+.demo-link-btn:focus,
+.view-project-btn:focus,
+.interaction-btn:focus {
+  outline: none;
+  box-shadow: none; /* if you see a box-shadow instead of outline */
+}
+
+/* normalize the active state so it doesn’t change color */
+button:active,
+.github-link-btn:active,
+.demo-link-btn:active,
+.view-project-btn:active,
+.interaction-btn:active {
+  background-color: inherit;  /* or whatever your normal bg is */
+  color: inherit;             /* keep your normal text color */
+  transform: translateY(0);   /* undo any translateY shift on hover */
+}
+
 
