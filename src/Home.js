@@ -1277,21 +1277,23 @@ const Portfolio = () => {
           width: "40%",
         }}
       >
-        // <button
-        //   style={{
-        //     height: "30px",
-        //     border: "2px solid #E0A593",
-        //     borderRadius: "20%",
-        //     background: "#E0A593",
-        //     color: "#8B4513",
-        //     width: "50px",
-        //     position: "absolute",
-        //     right: "60px", // Adjust the distance from the right edge
-        //     top: "10px", // Adjust the distance from the top edge
-        //   }}
-        // >
-        //   {visitorCount}
-        // </button>
+        {/* 
+          <button
+            style={{
+              height: "30px",
+              border: "2px solid #E0A593",
+              borderRadius: "20%",
+              background: "#E0A593",
+              color: "#8B4513",
+              width: "50px",
+              position: "absolute",
+              right: "60px",
+              top: "10px",
+            }}
+          >
+            {visitorCount}
+          </button>
+          */}
 
         <button
           style={{
