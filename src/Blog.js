@@ -47,9 +47,62 @@ const FIXED_CATEGORIES = [
   }
 ];
 
+const ProjectSkeleton = () => (
+  <Card className="project-card skeleton">
+    <div className="card-image-container skeleton-image" />
+    <Card.Body>
+      <div className="skeleton-title" />
+      <div className="skeleton-text" />
+      <div className="skeleton-text" />
+      <div className="skeleton-text" />
+      <div className="skeleton-buttons">
+        <div className="skeleton-button" />
+        <div className="skeleton-button" />
+      </div>
+    </Card.Body>
+  </Card>
+);
+
+const SkillsSkeleton = () => (
+  <div className="skills-sidebar">
+    <div className="skills-sidebar-header">
+      <div className="skeleton-title" style={{ width: '60%' }} />
+    </div>
+    <div className="expertise-category">
+      <div className="skeleton-title" style={{ width: '40%' }} />
+      <div className="expertise-items">
+        {Array(3).fill(0).map((_, index) => (
+          <div key={index} className="expertise-card skeleton">
+            <div className="skeleton-text" style={{ width: '70%' }} />
+            <div className="skeleton-text" style={{ width: '90%' }} />
+            <div className="skeleton-text" style={{ width: '80%' }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const UpdatesSkeleton = () => (
+  <div className="updates-sidebar">
+    <div className="updates-sidebar-header">
+      <div className="skeleton-title" style={{ width: '50%' }} />
+    </div>
+    <div className="updates-list">
+      {Array(3).fill(0).map((_, index) => (
+        <div key={index} className="update-card skeleton">
+          <div className="skeleton-title" style={{ width: '70%' }} />
+          <div className="skeleton-text" style={{ width: '40%' }} />
+          <div className="skeleton-text" style={{ width: '90%' }} />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const Blog = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [comments, setComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
@@ -63,20 +116,27 @@ const Blog = () => {
   const [showUpdates, setShowUpdates] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [skills, setSkills] = useState([]);
-  const [skillsLoading, setSkillsLoading] = useState(true);
+  const [skillsLoading, setSkillsLoading] = useState(false);
   const [skillsError, setSkillsError] = useState(null);
-  // const [skillsByCategory, setSkillsByCategory] = useState({
-  //   'data-science': [],
-  //   'ai': []
-  // });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const postsPerPage = 6; // Number of posts to load per page
+  const [skillsLoaded, setSkillsLoaded] = useState(false);
+  const [updatesLoaded, setUpdatesLoaded] = useState(false);
 
+  // Initial UI render without data
   useEffect(() => {
-    const fetchInitialData = async () => {
+    // Set loading to false initially to show skeleton UI
+    setLoading(false);
+  }, []);
+
+  // Load data after initial render
+  useEffect(() => {
+    const loadData = async () => {
       try {
         setLoading(true);
-        // Fetch all data in parallel
         const [projectsResponse, skillsResponse, updatesResponse] = await Promise.all([
-          fetch('https://portfolio-backend-hdxw.onrender.com/api/projects'),
+          fetch(`https://portfolio-backend-hdxw.onrender.com/api/projects?page=${currentPage}&limit=${postsPerPage}`),
           fetch('https://portfolio-backend-hdxw.onrender.com/api/skills'),
           fetch('https://portfolio-backend-hdxw.onrender.com/api/updates')
         ]);
@@ -91,34 +151,25 @@ const Blog = () => {
           updatesResponse.json()
         ]);
 
-        if (!Array.isArray(projectsData) || !Array.isArray(skillsData) || !Array.isArray(updatesData)) {
-          throw new Error('Invalid data format received');
-        }
-
         setPosts(projectsData);
         setSkills(skillsData);
         setUpdates(updatesData);
-        
-        // Fetch comments for all posts
-        const commentsData = {};
-        for (const post of projectsData) {
-          const response = await axios.get(
-            `https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments`
-          );
-          commentsData[post._id] = response.data;
-        }
-        setComments(commentsData);
+        setHasMore(projectsData.length === postsPerPage);
 
       } catch (error) {
         setError('Failed to load data');
       } finally {
         setLoading(false);
-        setSkillsLoading(false);
       }
     };
 
-    fetchInitialData();
-  }, []);
+    // Small delay to ensure UI is rendered first
+    const timer = setTimeout(() => {
+      loadData();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [currentPage]);
 
   useEffect(() => {
     // Check if user is authenticated on component mount
@@ -180,27 +231,49 @@ const Blog = () => {
     fetchUpdates();
   }, []);
 
+  // Load skills progressively
   useEffect(() => {
-    fetchSkills();
-  }, []);
+    if (showSkills && !skillsLoaded) {
+      const loadSkills = async () => {
+        try {
+          setSkillsLoading(true);
+          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
+          if (!response.ok) throw new Error('Failed to fetch skills');
+          const data = await response.json();
+          setSkills(data);
+          setSkillsLoaded(true);
+        } catch (error) {
+          setSkillsError(error.message);
+        } finally {
+          setSkillsLoading(false);
+        }
+      };
+      loadSkills();
+    }
+  }, [showSkills, skillsLoaded]);
 
-  const fetchSkills = async () => {
-    try {
-      setSkillsLoading(true);
-      const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      
-      if (!Array.isArray(data)) {
-        throw new Error('Expected array of skills');
-      }
-      
-      setSkills(data);
-      setSkillsLoading(false);
-    } catch (error) {
-      setSkillsError(error.message);
+  // Load updates progressively
+  useEffect(() => {
+    if (showUpdates && !updatesLoaded) {
+      const loadUpdates = async () => {
+        try {
+          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/updates');
+          if (!response.ok) throw new Error('Failed to fetch updates');
+          const data = await response.json();
+          setUpdates(data);
+          setUpdatesLoaded(true);
+        } catch (error) {
+          console.error('Error loading updates:', error);
+        }
+      };
+      loadUpdates();
+    }
+  }, [showUpdates, updatesLoaded]);
+
+  const handleSkillsToggle = () => {
+    setShowSkills(!showSkills);
+    if (!showSkills) {
+      setSkillsLoaded(false);
     }
   };
 
@@ -331,6 +404,45 @@ const Blog = () => {
     }
   };
 
+  const loadMoreProjects = async () => {
+    if (!hasMore) return;
+    
+    try {
+      const nextPage = currentPage + 1;
+      const response = await fetch(
+        `https://portfolio-backend-hdxw.onrender.com/api/projects?page=${nextPage}&limit=${postsPerPage}`
+      );
+      
+      if (!response.ok) throw new Error('Failed to fetch more projects');
+      
+      const newProjects = await response.json();
+      setPosts(prev => [...prev, ...newProjects]);
+      setCurrentPage(nextPage);
+      setHasMore(newProjects.length === postsPerPage);
+    } catch (error) {
+      setError('Failed to load more projects');
+    }
+  };
+
+  // Add intersection observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && hasMore) {
+          loadMoreProjects();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const sentinel = document.querySelector('.load-more-sentinel');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => observer.disconnect();
+  }, [loading, hasMore]);
+
   if (loading) {
     return <Loader />;
   }
@@ -395,7 +507,7 @@ const Blog = () => {
         ]}
       />
 
-      <div className="skills-toggle" onClick={() => setShowSkills(!showSkills)}>
+      <div className="skills-toggle" onClick={handleSkillsToggle}>
         <FaTools />
       </div>
 
@@ -406,11 +518,11 @@ const Blog = () => {
         </div>
         
         {skillsLoading ? (
-          <div className="loading">Loading skills...</div>
+          <SkillsSkeleton />
         ) : skillsError ? (
           <div className="error">
             <p>Error loading skills: {skillsError}</p>
-            <button onClick={fetchSkills}>Try Again</button>
+            <button onClick={() => setSkillsLoaded(false)}>Try Again</button>
           </div>
         ) : (
           <>
@@ -478,24 +590,28 @@ const Blog = () => {
           <h2 className="section-title">Latest Updates</h2>
           <button className="close-sidebar" onClick={() => setShowUpdates(false)}>×</button>
         </div>
-        <div className="updates-list">
-          {updates.map((update) => (
-            <div key={update.id} className="update-card">
-              <div className="update-header">
-                <h3>{update.title}</h3>
-                <span className="update-date">
-                  {new Date(update.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </span>
+        {!updatesLoaded ? (
+          <UpdatesSkeleton />
+        ) : (
+          <div className="updates-list">
+            {updates.map((update) => (
+              <div key={update.id} className="update-card">
+                <div className="update-header">
+                  <h3>{update.title}</h3>
+                  <span className="update-date">
+                    {new Date(update.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                </div>
+                <span className="update-category">{update.category}</span>
+                <p className="update-description">{update.description}</p>
               </div>
-              <span className="update-category">{update.category}</span>
-              <p className="update-description">{update.description}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="projects-container">
@@ -549,134 +665,143 @@ const Blog = () => {
         </div>
 
         <div className="projects-grid">
-          {filteredPosts.map((post) => (
-            <Card key={post._id} className="project-card">
-              <div className="card-image-container">
-                {post.imageUrl && (
-                  <Card.Img
-                    variant="top"
-                    src={post.imageUrl}
-                    alt={post.title}
-                    onError={(e) => {
-                      e.target.src = "https://placehold.co/600x400?text=Project+Image";
-                      console.error("Error loading image for project:", post.title);
-                    }}
-                  />
-                )}
-              </div>
-              <Card.Body>
-                <Card.Title className="project-title">{post.title}</Card.Title>
-                <div className="post-timestamp">
-                  {formatDate(post.timestamp)}
-                </div>
-                <Card.Text className="project-description">
-                  {post.content}
-                </Card.Text>
-                <div className="project-links">
-                  {post.githubLink && (
-                    <Button
-                      href={post.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="github-link-btn"
-                    >
-                      GitHub
-                    </Button>
-                  )}
-                  {post.demoLink && (
-                    <Button
-                      href={post.demoLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="demo-link-btn"
-                    >
-                      Live Demo
-                    </Button>
+          {loading ? (
+            // Show skeleton loading UI
+            Array(postsPerPage).fill(0).map((_, index) => (
+              <ProjectSkeleton key={index} />
+            ))
+          ) : (
+            // Show actual content
+            filteredPosts.map((post) => (
+              <Card key={post._id} className="project-card">
+                <div className="card-image-container">
+                  {post.imageUrl && (
+                    <Card.Img
+                      variant="top"
+                      src={post.imageUrl}
+                      alt={post.title}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "https://placehold.co/600x400?text=Project+Image";
+                      }}
+                    />
                   )}
                 </div>
-                <div className="post-interactions">
-                  <button
-                    className={`interaction-btn ${post.isLiked ? "liked" : ""}`}
-                    onClick={() => handleLike(post._id)}
-                  >
-                    {post.isLiked ? <FaHeart /> : <FaRegHeart />}
-                    <span>{post.likes}</span>
-                  </button>
-                  <button
-                    className="interaction-btn"
-                    onClick={() => toggleComments(post._id)}
-                  >
-                    <FaRegComment />
-                    <span>{post.comments}</span>
-                  </button>
-                </div>
-                {activeComment === post._id && (
-                  <div className="comments-section">
-                    <h3>Comments</h3>
-                    <div className="comment-form">
-                      <div className="comment-input-container">
-                        <textarea
-                          className="comment-textarea"
-                          value={commentInputs[post._id] || ""}
-                          onChange={(e) =>
-                            setCommentInputs((prev) => ({
-                              ...prev,
-                              [post._id]: e.target.value,
-                            }))
-                          }
-                          placeholder="Share your thoughts..."
-                          rows={1}
-                          onInput={(e) => {
-                            e.target.style.height = "auto";
-                            e.target.style.height =
-                              Math.min(e.target.scrollHeight, 120) + "px";
-                          }}
-                        />
-                        {commentInputs[post._id]?.trim() && (
-                          <div className="comment-form-actions">
-                            <button
-                              onClick={() => handleCommentSubmit(post._id)}
-                              disabled={!commentInputs[post._id]?.trim()}
-                            >
-                              Comment
-                            </button>
+                <Card.Body>
+                  <Card.Title className="project-title">{post.title}</Card.Title>
+                  <div className="post-timestamp">
+                    {formatDate(post.timestamp)}
+                  </div>
+                  <Card.Text className="project-description">
+                    {post.content}
+                  </Card.Text>
+                  <div className="project-links">
+                    {post.githubLink && (
+                      <Button
+                        href={post.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="github-link-btn"
+                      >
+                        GitHub
+                      </Button>
+                    )}
+                    {post.demoLink && (
+                      <Button
+                        href={post.demoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="demo-link-btn"
+                      >
+                        Live Demo
+                      </Button>
+                    )}
+                  </div>
+                  <div className="post-interactions">
+                    <button
+                      className={`interaction-btn ${post.isLiked ? "liked" : ""}`}
+                      onClick={() => handleLike(post._id)}
+                    >
+                      {post.isLiked ? <FaHeart /> : <FaRegHeart />}
+                      <span>{post.likes}</span>
+                    </button>
+                    <button
+                      className="interaction-btn"
+                      onClick={() => toggleComments(post._id)}
+                    >
+                      <FaRegComment />
+                      <span>{post.comments}</span>
+                    </button>
+                  </div>
+                  {activeComment === post._id && (
+                    <div className="comments-section">
+                      <h3>Comments</h3>
+                      <div className="comment-form">
+                        <div className="comment-input-container">
+                          <textarea
+                            className="comment-textarea"
+                            value={commentInputs[post._id] || ""}
+                            onChange={(e) =>
+                              setCommentInputs((prev) => ({
+                                ...prev,
+                                [post._id]: e.target.value,
+                              }))
+                            }
+                            placeholder="Share your thoughts..."
+                            rows={1}
+                            onInput={(e) => {
+                              e.target.style.height = "auto";
+                              e.target.style.height =
+                                Math.min(e.target.scrollHeight, 120) + "px";
+                            }}
+                          />
+                          {commentInputs[post._id]?.trim() && (
+                            <div className="comment-form-actions">
+                              <button
+                                onClick={() => handleCommentSubmit(post._id)}
+                                disabled={!commentInputs[post._id]?.trim()}
+                              >
+                                Comment
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="comments-list">
+                        {comments[post._id]?.length > 0 ? (
+                          comments[post._id].map((comment) => (
+                            <div key={comment.id} className="comment">
+                              <div className="comment-dot"></div>
+                              <div className="comment-content">
+                                <span className="comment-timestamp">
+                                  {new Date(comment.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    }
+                                  )}
+                                </span>
+                                <p>{comment.content}</p>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="no-comments-message">
+                            <FaRegComment />
+                            <p>No replies yet. Start the conversation!</p>
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className="comments-list">
-                      {comments[post._id]?.length > 0 ? (
-                        comments[post._id].map((comment) => (
-                          <div key={comment.id} className="comment">
-                            <div className="comment-dot"></div>
-                            <div className="comment-content">
-                              <span className="comment-timestamp">
-                                {new Date(comment.createdAt).toLocaleDateString(
-                                  "en-US",
-                                  {
-                                    month: "short",
-                                    day: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  }
-                                )}
-                              </span>
-                              <p>{comment.content}</p>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="no-comments-message">
-                          <FaRegComment />
-                          <p>No replies yet. Start the conversation!</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          ))}
+                  )}
+                </Card.Body>
+              </Card>
+            ))
+          )}
+          <div className="load-more-sentinel" style={{ height: '20px' }} />
         </div>
       </div>
     </div>
