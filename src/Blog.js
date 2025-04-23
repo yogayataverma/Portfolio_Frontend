@@ -55,6 +55,7 @@ const Blog = () => {
   const [commentInputs, setCommentInputs] = useState({});
   // Use a single state variable to track which post's comments are visible
   const [activeComment, setActiveComment] = useState(null);
+  const [loadedComments, setLoadedComments] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -69,62 +70,55 @@ const Blog = () => {
     'ai': []
   });
 
-  console.log(setSkillsByCategory);
-  console.log(skills);
-  console.log(skillsLoading);
-  console.log(setSkillsLoading);
-  console.log(skillsByCategory);
-  console.log(setSkillsError);
-  console.log(skillsError);
-
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchInitialData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/projects');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        // Fetch all data in parallel
+        const [projectsResponse, skillsResponse, updatesResponse] = await Promise.all([
+          fetch('https://portfolio-backend-hdxw.onrender.com/api/projects'),
+          fetch('https://portfolio-backend-hdxw.onrender.com/api/skills'),
+          fetch('https://portfolio-backend-hdxw.onrender.com/api/updates')
+        ]);
+
+        if (!projectsResponse.ok || !skillsResponse.ok || !updatesResponse.ok) {
+          throw new Error('Failed to fetch data');
         }
-        const data = await response.json();
-        console.log('Fetched projects:', data);
-        if (!Array.isArray(data)) {
-          throw new Error('Expected array of posts');
+
+        const [projectsData, skillsData, updatesData] = await Promise.all([
+          projectsResponse.json(),
+          skillsResponse.json(),
+          updatesResponse.json()
+        ]);
+
+        if (!Array.isArray(projectsData) || !Array.isArray(skillsData) || !Array.isArray(updatesData)) {
+          throw new Error('Invalid data format received');
         }
-        setPosts(data);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setPosts([]);
-        setError('Failed to load posts');
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchPosts();
-  }, []);
-
-  console.log('Current posts state:', posts);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
+        setPosts(projectsData);
+        setSkills(skillsData);
+        setUpdates(updatesData);
+        
+        // Fetch comments for all posts
         const commentsData = {};
-        for (const post of posts) {
+        for (const post of projectsData) {
           const response = await axios.get(
             `https://portfolio-backend-hdxw.onrender.com/api/projects/${post._id}/comments`
           );
           commentsData[post._id] = response.data;
         }
         setComments(commentsData);
+
       } catch (error) {
-        console.error("Error fetching comments:", error);
+        setError('Failed to load data');
+      } finally {
+        setLoading(false);
+        setSkillsLoading(false);
       }
     };
 
-    if (posts.length > 0) {
-      fetchComments();
-    }
-  }, [posts]);
+    fetchInitialData();
+  }, []);
 
   useEffect(() => {
     // Check if user is authenticated on component mount
@@ -198,20 +192,14 @@ const Blog = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log('Raw skills data:', data); // Debug log
       
       if (!Array.isArray(data)) {
         throw new Error('Expected array of skills');
       }
-
-      // Log the filtered data
-      console.log('Data Science skills:', data.filter(skill => skill.category === 'data-science'));
-      console.log('AI skills:', data.filter(skill => skill.category === 'ai'));
       
       setSkills(data);
       setSkillsLoading(false);
     } catch (error) {
-      console.error('Error fetching skills:', error);
       setSkillsError(error.message);
     }
   };
@@ -273,9 +261,31 @@ const Blog = () => {
     }
   };
 
-  // Toggle comments so that only one post's comment section is visible at a time.
+  const loadComments = async (postId) => {
+    if (!loadedComments[postId]) {
+      try {
+        const response = await axios.get(
+          `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`
+        );
+        setComments(prev => ({
+          ...prev,
+          [postId]: response.data
+        }));
+        setLoadedComments(prev => ({
+          ...prev,
+          [postId]: true
+        }));
+      } catch (error) {
+        setError('Failed to load comments');
+      }
+    }
+  };
+
   const toggleComments = (postId) => {
     setActiveComment((prev) => (prev === postId ? null : postId));
+    if (activeComment !== postId) {
+      loadComments(postId);
+    }
   };
 
   // Add this filter function
