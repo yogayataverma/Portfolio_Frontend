@@ -65,10 +65,10 @@ const Blog = () => {
   const [skills, setSkills] = useState([]);
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [skillsError, setSkillsError] = useState(null);
-  const [skillsByCategory, setSkillsByCategory] = useState({
-    'data-science': [],
-    'ai': []
-  });
+  // const [skillsByCategory, setSkillsByCategory] = useState({
+  //   'data-science': [],
+  //   'ai': []
+  // });
 
   useEffect(() => {
     const fetchInitialData = async () => {
