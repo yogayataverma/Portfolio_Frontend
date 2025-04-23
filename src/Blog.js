@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import AnimatedCursor from "react-animated-cursor";
@@ -106,7 +106,6 @@ const Blog = () => {
   const [error, setError] = useState(null);
   const [comments, setComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
-  // Use a single state variable to track which post's comments are visible
   const [activeComment, setActiveComment] = useState(null);
   const [loadedComments, setLoadedComments] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,42 +119,36 @@ const Blog = () => {
   const [skillsError, setSkillsError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const postsPerPage = 6; // Number of posts to load per page
+  const postsPerPage = 6;
   const [skillsLoaded, setSkillsLoaded] = useState(false);
   const [updatesLoaded, setUpdatesLoaded] = useState(false);
 
-  // Initial UI render without data
-  useEffect(() => {
-    // Set loading to false initially to show skeleton UI
-    setLoading(false);
-  }, []);
+  // Memoize filtered posts to prevent unnecessary recalculations
+  const filteredPosts = useMemo(() => 
+    posts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+    [posts, searchTerm]
+  );
 
-  // Load data after initial render
+  // Initial data loading with error handling and loading states
   useEffect(() => {
-    const loadData = async () => {
+    const loadInitialData = async () => {
       try {
         setLoading(true);
-        const [projectsResponse, skillsResponse, updatesResponse] = await Promise.all([
-          fetch(`https://portfolio-backend-hdxw.onrender.com/api/projects?page=${currentPage}&limit=${postsPerPage}`),
-          fetch('https://portfolio-backend-hdxw.onrender.com/api/skills'),
-          fetch('https://portfolio-backend-hdxw.onrender.com/api/updates')
+        const [projectsResponse] = await Promise.all([
+          fetch(`https://portfolio-backend-hdxw.onrender.com/api/projects?page=1&limit=${postsPerPage}`)
         ]);
 
-        if (!projectsResponse.ok || !skillsResponse.ok || !updatesResponse.ok) {
+        if (!projectsResponse.ok) {
           throw new Error('Failed to fetch data');
         }
 
-        const [projectsData, skillsData, updatesData] = await Promise.all([
-          projectsResponse.json(),
-          skillsResponse.json(),
-          updatesResponse.json()
-        ]);
-
+        const projectsData = await projectsResponse.json();
         setPosts(projectsData);
-        setSkills(skillsData);
-        setUpdates(updatesData);
         setHasMore(projectsData.length === postsPerPage);
-
       } catch (error) {
         setError('Failed to load data');
       } finally {
@@ -163,13 +156,111 @@ const Blog = () => {
       }
     };
 
-    // Small delay to ensure UI is rendered first
-    const timer = setTimeout(() => {
-      loadData();
-    }, 100);
+    loadInitialData();
+  }, []);
 
-    return () => clearTimeout(timer);
-  }, [currentPage]);
+  // Load skills only when needed
+  useEffect(() => {
+    if (showSkills && !skillsLoaded) {
+      const loadSkills = async () => {
+        try {
+          setSkillsLoading(true);
+          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
+          if (!response.ok) throw new Error('Failed to fetch skills');
+          const data = await response.json();
+          setSkills(data);
+          setSkillsLoaded(true);
+        } catch (error) {
+          setSkillsError(error.message);
+        } finally {
+          setSkillsLoading(false);
+        }
+      };
+      loadSkills();
+    }
+  }, [showSkills, skillsLoaded]);
+
+  // Load updates only when needed
+  useEffect(() => {
+    if (showUpdates && !updatesLoaded) {
+      const loadUpdates = async () => {
+        try {
+          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/updates');
+          if (!response.ok) throw new Error('Failed to fetch updates');
+          const data = await response.json();
+          setUpdates(data);
+          setUpdatesLoaded(true);
+        } catch (error) {
+          console.error('Error loading updates:', error);
+        }
+      };
+      loadUpdates();
+    }
+  }, [showUpdates, updatesLoaded]);
+
+  // Optimize comment loading
+  const loadComments = useCallback(async (postId) => {
+    if (!loadedComments[postId]) {
+      try {
+        const response = await axios.get(
+          `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`
+        );
+        setComments(prev => ({
+          ...prev,
+          [postId]: response.data
+        }));
+        setLoadedComments(prev => ({
+          ...prev,
+          [postId]: true
+        }));
+      } catch (error) {
+        setError('Failed to load comments');
+      }
+    }
+  }, [loadedComments]);
+
+  // Optimize infinite scroll
+  const loadMoreProjects = useCallback(async () => {
+    if (!hasMore || loading) return;
+    
+    try {
+      setLoading(true);
+      const nextPage = currentPage + 1;
+      const response = await fetch(
+        `https://portfolio-backend-hdxw.onrender.com/api/projects?page=${nextPage}&limit=${postsPerPage}`
+      );
+      
+      if (!response.ok) throw new Error('Failed to fetch more projects');
+      
+      const newProjects = await response.json();
+      setPosts(prev => [...prev, ...newProjects]);
+      setCurrentPage(nextPage);
+      setHasMore(newProjects.length === postsPerPage);
+    } catch (error) {
+      setError('Failed to load more projects');
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage, hasMore, loading, postsPerPage]);
+
+  // Intersection observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && hasMore) {
+          loadMoreProjects();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const sentinel = document.querySelector('.load-more-sentinel');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => observer.disconnect();
+  }, [loading, hasMore, loadMoreProjects]);
 
   useEffect(() => {
     // Check if user is authenticated on component mount
@@ -230,45 +321,6 @@ const Blog = () => {
 
     fetchUpdates();
   }, []);
-
-  // Load skills progressively
-  useEffect(() => {
-    if (showSkills && !skillsLoaded) {
-      const loadSkills = async () => {
-        try {
-          setSkillsLoading(true);
-          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/skills');
-          if (!response.ok) throw new Error('Failed to fetch skills');
-          const data = await response.json();
-          setSkills(data);
-          setSkillsLoaded(true);
-        } catch (error) {
-          setSkillsError(error.message);
-        } finally {
-          setSkillsLoading(false);
-        }
-      };
-      loadSkills();
-    }
-  }, [showSkills, skillsLoaded]);
-
-  // Load updates progressively
-  useEffect(() => {
-    if (showUpdates && !updatesLoaded) {
-      const loadUpdates = async () => {
-        try {
-          const response = await fetch('https://portfolio-backend-hdxw.onrender.com/api/updates');
-          if (!response.ok) throw new Error('Failed to fetch updates');
-          const data = await response.json();
-          setUpdates(data);
-          setUpdatesLoaded(true);
-        } catch (error) {
-          console.error('Error loading updates:', error);
-        }
-      };
-      loadUpdates();
-    }
-  }, [showUpdates, updatesLoaded]);
 
   const handleSkillsToggle = () => {
     setShowSkills(!showSkills);
@@ -334,39 +386,12 @@ const Blog = () => {
     }
   };
 
-  const loadComments = async (postId) => {
-    if (!loadedComments[postId]) {
-      try {
-        const response = await axios.get(
-          `https://portfolio-backend-hdxw.onrender.com/api/projects/${postId}/comments`
-        );
-        setComments(prev => ({
-          ...prev,
-          [postId]: response.data
-        }));
-        setLoadedComments(prev => ({
-          ...prev,
-          [postId]: true
-        }));
-      } catch (error) {
-        setError('Failed to load comments');
-      }
-    }
-  };
-
   const toggleComments = (postId) => {
     setActiveComment((prev) => (prev === postId ? null : postId));
     if (activeComment !== postId) {
       loadComments(postId);
     }
   };
-
-  // Add this filter function
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleProjectSubmitted = (newProject) => {
     setPosts([newProject, ...posts]);
@@ -403,45 +428,6 @@ const Blog = () => {
       setShowAdminLogin(false);
     }
   };
-
-  const loadMoreProjects = useCallback(async () => {
-    if (!hasMore) return;
-    
-    try {
-      const nextPage = currentPage + 1;
-      const response = await fetch(
-        `https://portfolio-backend-hdxw.onrender.com/api/projects?page=${nextPage}&limit=${postsPerPage}`
-      );
-      
-      if (!response.ok) throw new Error('Failed to fetch more projects');
-      
-      const newProjects = await response.json();
-      setPosts(prev => [...prev, ...newProjects]);
-      setCurrentPage(nextPage);
-      setHasMore(newProjects.length === postsPerPage);
-    } catch (error) {
-      setError('Failed to load more projects');
-    }
-  }, [currentPage, hasMore, postsPerPage]);
-
-  // Add intersection observer for infinite scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loading && hasMore) {
-          loadMoreProjects();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    const sentinel = document.querySelector('.load-more-sentinel');
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
-
-    return () => observer.disconnect();
-  }, [loading, hasMore, loadMoreProjects]);
 
   if (loading) {
     return <Loader />;
