@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import AnimatedCursor from "react-animated-cursor";
@@ -404,7 +404,7 @@ const Blog = () => {
     }
   };
 
-  const loadMoreProjects = async () => {
+  const loadMoreProjects = useCallback(async () => {
     if (!hasMore) return;
     
     try {
@@ -422,7 +422,7 @@ const Blog = () => {
     } catch (error) {
       setError('Failed to load more projects');
     }
-  };
+  }, [currentPage, hasMore, postsPerPage]);
 
   // Add intersection observer for infinite scroll
   useEffect(() => {
