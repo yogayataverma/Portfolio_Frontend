@@ -441,7 +441,7 @@ const Blog = () => {
     }
 
     return () => observer.disconnect();
-  }, [loading, hasMore]);
+  }, [loading, hasMore, loadMoreProjects]);
 
   if (loading) {
     return <Loader />;
